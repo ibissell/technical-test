@@ -7,7 +7,7 @@ using X.PagedList;
 
 namespace Bissell.Services.Repository
 {
-    public class BugRepository : IRepository<Bug, BugSearchParameters>
+    public class BugHistoryRepository : IRepository<BugHistory, BugSearchParameters>
     {
         #region Properties
 
@@ -18,7 +18,7 @@ namespace Bissell.Services.Repository
         #endregion
         #region Constructors
 
-        public BugRepository(BugTrackerDbContext bugTrackerDbContext)
+        public BugHistoryRepository(BugTrackerDbContext bugTrackerDbContext)
         {
             BugTrackerDbContext = bugTrackerDbContext;
         }
@@ -26,21 +26,21 @@ namespace Bissell.Services.Repository
         #endregion
         #region Methods
 
-        public async Task<Bug> CreateAsync(Bug bug)
+        public async Task<BugHistory> CreateAsync(BugHistory bugHistory)
         {
-            await BugTrackerDbContext.AddAsync(bug);
+            await BugTrackerDbContext.AddAsync(bugHistory);
             await BugTrackerDbContext.SaveChangesAsync();
 
-            return bug;
+            return bugHistory;
         }
 
-        public async Task<bool> DeleteAsync(int bugId)
+        public async Task<bool> DeleteAsync(int BugHistoryId)
         {
-            Bug? bug = await GetAsync(bugId);
+            BugHistory? BugHistory = await GetAsync(BugHistoryId);
 
-            if (bug != null)
+            if (BugHistory != null)
             {
-                BugTrackerDbContext.Bugs.Remove(bug);
+                BugTrackerDbContext.BugsHistory.Remove(BugHistory);
                 await BugTrackerDbContext.SaveChangesAsync();
 
                 return true;
@@ -51,26 +51,26 @@ namespace Bissell.Services.Repository
             }
         }
 
-        public async Task<List<Bug>> GetAllAsync(List<int> ids)
+        public async Task<List<BugHistory>> GetAllAsync(List<int> ids)
         {
-            List<Bug> bugs = await BugTrackerDbContext.Bugs.Include(x => x.AssignedPerson)
-                .Include(x => x.History).AsSplitQuery().ToListAsync();
+            List<BugHistory> BugHistorys = await BugTrackerDbContext.BugsHistory.Include(x => x.AssignedPerson)
+                .Include(x => x.CurrentBug).ToListAsync();
 
-            return bugs;
+            return BugHistorys;
         }
 
-        public async Task<Bug?> GetAsync(int bugId)
+        public async Task<BugHistory?> GetAsync(int BugHistoryId)
         {
-            Bug? bug = await BugTrackerDbContext.Bugs.Include(x => x.AssignedPerson)
-                .Include(x => x.History).FirstOrDefaultAsync(x => x.BugId == bugId);
+            BugHistory? BugHistory = await BugTrackerDbContext.BugsHistory.Include(x => x.AssignedPerson)
+                .Include(x => x.CurrentBug).FirstOrDefaultAsync(x => x.BugHistoryId == BugHistoryId);
 
-            return bug;
+            return BugHistory;
         }
 
-        public async Task<IPagedList<Bug>> SearchAsync(BugSearchParameters searchParameters)
+        public async Task<IPagedList<BugHistory>> SearchAsync(BugSearchParameters searchParameters)
         {
             //Where
-            IQueryable<Bug> query = BugTrackerDbContext.Bugs;
+            IQueryable<BugHistory> query = BugTrackerDbContext.BugsHistory;
             query = searchParameters.QuickSearch != null ? query.Where(x => x.Title.Contains(searchParameters.QuickSearch) || x.Description.Contains(searchParameters.QuickSearch)) : query;
             query = searchParameters.BugIds != null ? query.Where(x => searchParameters.BugIds.Contains(x.BugId)) : query;
             query = searchParameters.AssignedPersonIds != null ? query.Where(x => searchParameters.AssignedPersonIds.Contains(x.AssignedPersonId!.Value)) : query;
@@ -91,28 +91,28 @@ namespace Bissell.Services.Repository
                 _ => query.OrderBy(x => x.Title)
             };
 
-            IPagedList<Bug> bugs = await query.ToPagedListAsync(searchParameters.PageNumber, searchParameters.PageSize);
+            IPagedList<BugHistory> BugHistorys = await query.ToPagedListAsync(searchParameters.PageNumber, searchParameters.PageSize);
 
-            return bugs;
+            return BugHistorys;
         }
 
-        public async Task<Bug?> UpdateAsync(Bug updateBug)
+        public async Task<BugHistory?> UpdateAsync(BugHistory updateBugHistory)
         {
-            Bug? currentBug = await GetAsync(updateBug.BugId);
+            BugHistory? currentBugHistory = await GetAsync(updateBugHistory.BugHistoryId);
 
-            if (currentBug != null)
+            if (currentBugHistory != null)
             {
-                currentBug.UpdatedDttm = DateTime.UtcNow;
-                currentBug.Title = updateBug.Title;
-                currentBug.Description = updateBug.Description;
-                currentBug.AssignedPerson = updateBug.AssignedPerson;
-                currentBug.Priority = updateBug.Priority;
-                currentBug.Status = updateBug.Status;
+                currentBugHistory.UpdatedDttm = DateTime.UtcNow;
+                currentBugHistory.Title = updateBugHistory.Title;
+                currentBugHistory.Description = updateBugHistory.Description;
+                currentBugHistory.AssignedPerson = updateBugHistory.AssignedPerson;
+                currentBugHistory.Priority = updateBugHistory.Priority;
+                currentBugHistory.Status = updateBugHistory.Status;
 
                 await BugTrackerDbContext.SaveChangesAsync();
             }
 
-            return currentBug;
+            return currentBugHistory;
 
         }
 

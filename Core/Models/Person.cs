@@ -11,9 +11,9 @@
 
         public virtual string Surname { get; set; }
 
-        public virtual string EmailAddress { get; set; }
+        public virtual string? EmailAddress { get; set; }
 
-        public virtual string TelephoneNo { get; set; }
+        public virtual string? TelephoneNo { get; set; }
 
         #endregion
         #region Constructor
@@ -22,8 +22,6 @@
         {
             Forename = string.Empty;
             Surname = string.Empty;
-            EmailAddress = string.Empty;
-            TelephoneNo = string.Empty;
         }
 
         #endregion

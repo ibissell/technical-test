@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using X.PagedList;
+﻿using X.PagedList;
 
-namespace Bissell.Core.Interfaces
+namespace Bissell.Services.Interfaces
 {
     /// <summary></summary>
     /// <typeparam name="T1">Entity Type</typeparam>

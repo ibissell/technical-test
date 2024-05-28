@@ -1,11 +1,11 @@
-﻿using Bissell.Core.Interfaces;
-using Bissell.Core.Models;
+﻿using Bissell.Core.Models;
 using Bissell.Database;
 using Bissell.Database.Entities;
+using Bissell.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 
-namespace Services.Repository
+namespace Bissell.Services.Repository
 {
     public class BugHistoryRepository : IRepository<BugHistory, BugSearchParameters>
     {

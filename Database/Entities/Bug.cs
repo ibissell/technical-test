@@ -15,6 +15,12 @@ namespace Bissell.Database.Entities
         [ForeignKey(nameof(Person))]
         public override int? AssignedPersonId { get; set; }
 
+        [Column(TypeName = "varchar(50)")]
+        public override string Title { get; set; }
+
+        [Column(TypeName = "varchar(50)")]
+        public override string Description { get; set; }
+
         public virtual Person? AssignedPerson { get; set; }
 
         public virtual List<BugHistory>? History { get; set; }
@@ -24,9 +30,11 @@ namespace Bissell.Database.Entities
 
         public Bug() : base()
         {
-
+            Title = String.Empty;
+            Description = String.Empty; 
         }
 
         #endregion
+
     }
 }

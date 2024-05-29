@@ -5,7 +5,7 @@ namespace Bissell.Core.Models
     {
         #region Properties
 
-        public virtual DateTime? InsertedDttm { get; set; }
+        public virtual DateTime InsertedDttm { get; set; }
 
         public virtual DateTime? UpdatedDttm { get; set; }
 
@@ -15,7 +15,7 @@ namespace Bissell.Core.Models
         public Base()
         {
             InsertedDttm = DateTime.Now;
-            InsertedDttm = null;
+            UpdatedDttm = null;
         }
 
         #endregion

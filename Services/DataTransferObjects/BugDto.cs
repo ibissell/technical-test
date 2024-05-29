@@ -32,6 +32,8 @@ namespace Bissell.Services.DataTransferObjects
             AssignedPerson = bug.AssignedPerson != null ? (PersonDto)bug.AssignedPerson : null,
             History = bug.History != null ? bug.History.ConvertAll(x => (BugHistoryDto)x) : new(),
             Title = bug.Title,
+            Status = bug.Status,
+            Priority = bug.Priority,
             Description = bug.Description,
         };
 
@@ -44,6 +46,8 @@ namespace Bissell.Services.DataTransferObjects
             AssignedPerson = bugDto.AssignedPerson != null ? (Person)bugDto.AssignedPerson : null,
             History = bugDto.History != null ? bugDto.History.ConvertAll(x => (BugHistory)x) : new(),
             Title = bugDto.Title,
+            Status = bugDto.Status,
+            Priority = bugDto.Priority,
             Description = bugDto.Description,
         };
 
@@ -55,6 +59,8 @@ namespace Bissell.Services.DataTransferObjects
             AssignedPersonId = bugDto.AssignedPersonId,
             AssignedPerson = bugDto.AssignedPerson != null ? (Person)bugDto.AssignedPerson : null,
             Title = bugDto.Title,
+            Status = bugDto.Status,
+            Priority = bugDto.Priority,
             Description = bugDto.Description,
         };
 

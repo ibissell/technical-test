@@ -32,6 +32,8 @@ namespace Bissell.Services.DataTransferObjects
             AssignedPerson = bugHistory.AssignedPerson != null ? (PersonDto)bugHistory.AssignedPerson : null,
             Title = bugHistory.Title,
             Description = bugHistory.Description,
+            Status = bugHistory.Status,
+            Priority = bugHistory.Priority,
         };
 
         public static explicit operator BugHistoryDto(BugDto butDto) => new BugHistoryDto()
@@ -43,6 +45,8 @@ namespace Bissell.Services.DataTransferObjects
             AssignedPerson = butDto.AssignedPerson != null ? (PersonDto)butDto.AssignedPerson : null,
             Title = butDto.Title,
             Description = butDto.Description,
+            Status = butDto.Status,
+            Priority = butDto.Priority,
         };
 
         public static explicit operator BugHistory(BugHistoryDto bugHistoryDto) => new BugHistory()
@@ -55,6 +59,8 @@ namespace Bissell.Services.DataTransferObjects
             AssignedPerson = bugHistoryDto.AssignedPerson != null ? (Person)bugHistoryDto.AssignedPerson : null,
             Title = bugHistoryDto.Title,
             Description = bugHistoryDto.Description,
+            Status = bugHistoryDto.Status,
+            Priority = bugHistoryDto.Priority,
         };
 
         #endregion

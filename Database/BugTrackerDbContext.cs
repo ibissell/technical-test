@@ -1,5 +1,6 @@
 ﻿using Bissell.Database.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata;
 
 namespace Bissell.Database
 {
@@ -7,11 +8,11 @@ namespace Bissell.Database
     {
         #region Entities
 
-        public DbSet<Bug> Bugs { get; set; }
+        public virtual DbSet<Bug> Bugs { get; set; }
 
-        public DbSet<BugHistory> BugsHistory { get; set; }
+        public virtual DbSet<BugHistory> BugsHistory { get; set; }
 
-        public DbSet<Person> Persons { get; set; }
+        public virtual DbSet<Person> Persons { get; set; }
 
         #endregion
         #region Constructor
@@ -29,6 +30,9 @@ namespace Bissell.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Bug>().Property(b => b.InsertedDttm).HasDefaultValueSql("getdate()");
+            modelBuilder.Entity<Person>().Property(b => b.InsertedDttm).HasDefaultValueSql("getdate()");
+
             modelBuilder.Entity<Bug>().HasOne(e => e.AssignedPerson).WithMany(e => e.AssignedBugs).HasForeignKey(e => e.AssignedPersonId).OnDelete(DeleteBehavior.Restrict);
         }
 

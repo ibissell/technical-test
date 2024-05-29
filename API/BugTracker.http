@@ -1,0 +1,6 @@
+@BugTracker_HostAddress = http://localhost:5015
+
+GET {{BugTracker_HostAddress}}/bugtracker/
+Accept: application/json
+
+###

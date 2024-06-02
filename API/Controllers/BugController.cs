@@ -1,13 +1,16 @@
 ﻿using Bissell.Core.Models;
 using Bissell.Services.DataTransferObjects;
 using Bissell.Services.Interfaces;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using X.PagedList;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace API.Controllers
 {
+    [EnableCors]
     [Route("[controller]")]
     [ApiController]
     public class BugController : ControllerBase
@@ -28,7 +31,13 @@ namespace API.Controllers
             {
                 IPagedList<BugDto> bugDtos = await BugService.SearchAsync(searchParameters);
 
-                return Ok(bugDtos);
+                string bugPagedList = JsonConvert.SerializeObject(new
+                {
+                    items = bugDtos,
+                    metadata = bugDtos.GetMetaData()
+                });
+
+                return Ok(bugPagedList);
             }
             catch (Exception ex)
             {
